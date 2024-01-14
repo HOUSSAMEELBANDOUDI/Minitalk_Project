@@ -9,7 +9,7 @@
 /*   Updated: 2024/01/11 20:07:55 by hel-band         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+#include "printf.h"
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,9 +50,9 @@ int	main(void)
 	sa.sa_sigaction = ft_handle_signal;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
-	printf("%d\n", getpid());
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
+	ft_printf("%d\n", getpid());
 	while (1)
 		pause();
 	return (0);

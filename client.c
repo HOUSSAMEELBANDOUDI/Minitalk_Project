@@ -9,7 +9,7 @@
 /*   Updated: 2024/01/11 20:29:30 by hel-band         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+#include "printf.h"
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
@@ -75,7 +75,7 @@ int	main(int ac, char **av)
 
 	if (ac != 3)
 	{
-		printf("Usage: %s <pid> <message>\n", av[0]);
+		ft_printf("Usage: %s <pid> <message>\n", av[0]);
 		return (0);
 	}
 	server_pid = ft_atoi(av[1]);
