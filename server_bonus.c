@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-band <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 19:45:35 by hel-band          #+#    #+#             */
-/*   Updated: 2024/01/11 20:07:55 by hel-band         ###   ########.fr       */
+/*   Created: 2024/01/15 19:04:19 by hel-band          #+#    #+#             */
+/*   Updated: 2024/01/15 19:04:25 by hel-band         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ void	ft_handle_signal(int sig, siginfo_t *info, void *context)
 	}
 	else
 		byt <<= 1;
+    if (sig == SIGUSR1)
+        kill(info->si_pid, SIGUSR1);
+    else if (sig == SIGUSR2)
+        kill(info->si_pid, SIGUSR2);
+
 }
 
 int	main(void)
@@ -49,8 +54,7 @@ int	main(void)
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	ft_putnbr(getpid());
-	ft_putchar('\n');
+	ft_putnbr (getpid());
 	while (1)
 		pause();
 	return (0);

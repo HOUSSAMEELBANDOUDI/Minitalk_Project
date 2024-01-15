@@ -10,40 +10,41 @@
 #                                                                              #
 # **************************************************************************** #
 
-FT_PRINTF_PATH  =   ft_printf/
-FT_PRINTF_LIB   =   libftprintf.a
-FT_PRINTF       =   $(FT_PRINTF_PATH)$(FT_PRINTF_LIB)
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+CLIENT_NAME = client
+SERVER_NAME = server
+BONUS_CLIENT_NAME = client_bonus
+BONUS_SERVER_NAME = server_bonus
 
-SERVER          =   server
-CLIENT          =   client
+SRC_CLIENT = client.c
+SRC_SERVER = server.c
+BONUS_SRC_CLIENT = client_bonus.c
+BONUS_SRC_SERVER = server_bonus.c
+SRC = Utils.c
 
-CC              =   cc
-FLAGS           =   -Wall -Werror -Wextra
-RM              =   rm -f
-AR              =   ar rcs
-INCLUDE         =   -I ./$(FT_PRINTF_PATH)
+all: $(CLIENT_NAME) $(SERVER_NAME)
 
-all: $(FT_PRINTF) $(SERVER) $(CLIENT)
+$(CLIENT_NAME): $(SRC_CLIENT) ft_minitalk.h $(SRC)
+	$(CC) $(CFLAGS) -o $(CLIENT_NAME) $(SRC_CLIENT) $(SRC)
 
-$(FT_PRINTF):
-	@MAKE -s -C $(FT_PRINTF_PATH)
+$(SERVER_NAME): $(SRC_SERVER) ft_minitalk.h $(SRC)
+	$(CC) $(CFLAGS) -o $(SERVER_NAME) $(SRC_SERVER) $(SRC)
 
-$(SERVER): $(FT_PRINTF) server.c
-	@$(CC) $(FLAGS) server.c -o $(SERVER) $(FT_PRINTF) $(INCLUDE)
-	@echo "Server is ready - run ./server"
+$(BONUS_CLIENT_NAME): $(BONUS_SRC_CLIENT) ft_minitalk.h $(SRC)
+	$(CC) $(CFLAGS) -o $(BONUS_CLIENT_NAME) $(BONUS_SRC_CLIENT) $(SRC)
 
-$(CLIENT): $(FT_PRINTF) client.c
-	@$(CC) $(FLAGS) client.c -o $(CLIENT) $(FT_PRINTF) $(INCLUDE)
-	@echo "Client is ready - run ./client"
+$(BONUS_SERVER_NAME): $(BONUS_SRC_SERVER) ft_minitalk.h $(SRC)
+	$(CC) $(CFLAGS) -o $(BONUS_SERVER_NAME) $(BONUS_SRC_SERVER) $(SRC)
+
+bonus: $(BONUS_CLIENT_NAME) $(BONUS_SERVER_NAME)
 
 clean:
-	@MAKE clean -s -C $(FT_PRINTF_PATH)
-	@echo "ft_printf objects are now deleted."
+	rm -f $(CLIENT_NAME) $(SERVER_NAME)
 
 fclean: clean
-	@$(RM) $(SERVER) $(CLIENT)
-	@$(RM) $(FT_PRINTF_PATH)$(FT_PRINTF_LIB)
-	@echo "and libftprintf.a server client"
+	rm -f $(BONUS_CLIENT_NAME) $(BONUS_SERVER_NAME)
 
 re: fclean all
 
+.PHONY: all fclean clean re bonus
