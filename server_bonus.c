@@ -12,6 +12,14 @@
 
 #include "ft_minitalk.h"
 
+void	ft_send_siganl(int sig, pid_t client)
+{
+	if (sig == SIGUSR1)
+		kill(client, SIGUSR1);
+	else if (sig == SIGUSR2)
+		kill(client, SIGUSR2);
+}
+
 void	ft_handle_signal(int sig, siginfo_t *info, void *context)
 {
 	static unsigned char	byt;
@@ -38,11 +46,7 @@ void	ft_handle_signal(int sig, siginfo_t *info, void *context)
 	}
 	else
 		byt <<= 1;
-    if (sig == SIGUSR1)
-        kill(info->si_pid, SIGUSR1);
-    else if (sig == SIGUSR2)
-        kill(info->si_pid, SIGUSR2);
-
+	ft_send_siganl(sig, client_pid);
 }
 
 int	main(void)
@@ -54,7 +58,8 @@ int	main(void)
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	ft_putnbr (getpid());
+	ft_putnbr(getpid());
+	ft_putchar('\n');
 	while (1)
 		pause();
 	return (0);

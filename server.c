@@ -45,7 +45,6 @@ int	main(void)
 	struct sigaction	sa;
 
 	sa.sa_sigaction = ft_handle_signal;
-	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);

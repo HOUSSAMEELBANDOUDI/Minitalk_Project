@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_minitalk.h"
+#include <stdlib.h>
 
 void	ft_send_signal(int pid, unsigned char str)
 {
@@ -23,10 +24,16 @@ void	ft_send_signal(int pid, unsigned char str)
 	{
 		shifted = str >> i;
 		if (shifted % 2 == 0)
-			kill(pid, SIGUSR2);
+		{
+			if (kill(pid, SIGUSR2) < 0)
+				exit(1);
+		}
 		else
-			kill(pid, SIGUSR1);
-		usleep(420);
+		{
+			if (kill(pid, SIGUSR1) < 0)
+				exit(1);
+		}
+		usleep(450);
 	}
 }
 
@@ -46,10 +53,15 @@ int	main(int ac, char **av)
 
 	if (ac != 3)
 	{
-		ft_putstr("Usage: %s <pid> <message>\n");
+		ft_putstr("check the number of your arguments");
 		return (0);
 	}
 	server_pid = ft_atoi(av[1]);
+	if (server_pid <= 0)
+	{
+		ft_putstr("check your server_pid\n");
+		return (0);
+	}
 	ft_send_char(server_pid, av[2]);
 	return (0);
 }
